@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   CalendarDays,
@@ -6,7 +6,7 @@ import {
   LogOut,
   Stethoscope,
   UserRound,
-} from "lucide-react";
+} from 'lucide-react';
 
 import {
   Sidebar,
@@ -19,40 +19,40 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import Link from "next/link";
-import Image from "next/image";
+} from '@/components/ui/sidebar';
+import Link from 'next/link';
+import Image from 'next/image';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { authClient } from "@/lib/auth-client";
-import { usePathname, useRouter } from "next/navigation";
-import { Avatar } from "@radix-ui/react-avatar";
-import { AvatarFallback } from "@/components/ui/avatar";
+} from '@/components/ui/dropdown-menu';
+import { authClient } from '@/lib/auth-client';
+import { usePathname, useRouter } from 'next/navigation';
+import { Avatar } from '@radix-ui/react-avatar';
+import { AvatarFallback } from '@/components/ui/avatar';
 
 // Menu items.
 const items = [
   {
-    title: "Dashboard",
-    url: "/dashboard",
+    title: 'Dashboard',
+    url: '/dashboard',
     icon: LayoutDashboard,
   },
   {
-    title: "Agendamentos",
-    url: "/appointments",
+    title: 'Agendamentos',
+    url: '/appointments',
     icon: CalendarDays,
   },
   {
-    title: "Médicos",
-    url: "/doctors",
+    title: 'Médicos',
+    url: '/doctors',
     icon: Stethoscope,
   },
   {
-    title: "Pacientes",
-    url: "/patients",
+    title: 'Pacientes',
+    url: '/patients',
     icon: UserRound,
   },
 ];
@@ -66,7 +66,7 @@ export function AppSidebar() {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push("/authentication");
+          router.push('/authentication');
         },
       },
     });

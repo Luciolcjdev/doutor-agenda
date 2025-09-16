@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -16,27 +16,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { authClient } from "@/lib/auth-client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { authClient } from '@/lib/auth-client';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const registerSchema = z.object({
-  name: z.string().trim().min(1, { message: "Nome é obrigatório" }),
+  name: z.string().trim().min(1, { message: 'Nome é obrigatório' }),
   email: z
     .string()
     .trim()
-    .min(1, { message: "E-mail é obrigatório" })
-    .email({ message: "Email inválido" }),
+    .min(1, { message: 'E-mail é obrigatório' })
+    .email({ message: 'Email inválido' }),
   password: z
     .string()
     .trim()
-    .min(8, { message: "Senha tem que ter pelo menos 8 caracteres" }),
+    .min(8, { message: 'Senha tem que ter pelo menos 8 caracteres' }),
 });
 
 export default function SiginUpForm() {
@@ -44,9 +44,9 @@ export default function SiginUpForm() {
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      name: '',
+      email: '',
+      password: '',
     },
   });
 
@@ -59,15 +59,15 @@ export default function SiginUpForm() {
       },
       {
         onSuccess: () => {
-          router.push("/dashboard");
+          router.push('/dashboard');
         },
 
         onError: (ctx) => {
-          if (ctx.error.code === "USER_ALREADY_EXISTS") {
-            toast.error("E-mail já cadastrado.");
+          if (ctx.error.code === 'USER_ALREADY_EXISTS') {
+            toast.error('E-mail já cadastrado.');
             return;
           }
-          toast.error("Erro ao criar conta.");
+          toast.error('Erro ao criar conta.');
         },
       },
     );
@@ -135,7 +135,7 @@ export default function SiginUpForm() {
               {form.formState.isSubmitting ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                "Criar conta"
+                'Criar conta'
               )}
             </Button>
           </CardFooter>

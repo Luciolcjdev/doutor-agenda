@@ -1,26 +1,58 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-import simpleImportSort from "eslint-plugin-simple-import-sort";
+// eslint.config.mjs
+import js from '@eslint/js';
+import ts from 'typescript-eslint';
+import importPlugin from 'eslint-plugin-import';
+import prettierPlugin from 'eslint-plugin-prettier';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+export default [
+  // Regras base de JS
+  js.configs.recommended,
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+  // Regras base de TypeScript
+  ...ts.configs.recommended,
 
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  // Sua configuração customizada
   {
     plugins: {
-      "simple-import-sort": simpleImportSort,
+      import: importPlugin,
+      prettier: prettierPlugin,
     },
     rules: {
-      "simple-import-sort/imports": "error",
-      "simple-import-sort/exports": "error",
+      // Regras gerais recomendadas
+      'no-unused-vars': 'warn',
+      'no-console': 'off',
+
+      // Impede imports proibidos (exemplo: react-hook-form direto)
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            {
+              target: './src/components/ui/form.tsx',
+              from: 'react-hook-form',
+              message:
+                '⚠️ UseForm deve ser importado de "@/components/ui/form", não direto de react-hook-form',
+            },
+          ],
+        },
+      ],
+
+      // 🔹 Prettier: ativa e mostra erros quando formatação não bate
+      'prettier/prettier': [
+        'error',
+        {
+          singleQuote: true,
+          semi: true,
+          trailingComma: 'all',
+          printWidth: 80,
+        },
+      ],
+    },
+    settings: {
+      // Ajuda o eslint-plugin-import a entender TypeScript
+      'import/resolver': {
+        typescript: {},
+      },
     },
   },
 ];
-
-export default eslintConfig;

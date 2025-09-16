@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { createClinic } from "@/actions/create-clinics";
-import { Button } from "@/components/ui/button";
-import { DialogFooter } from "@/components/ui/dialog";
+import { createClinic } from '@/actions/create-clinics';
+import { Button } from '@/components/ui/button';
+import { DialogFooter } from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -10,24 +10,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import { isRedirectError } from 'next/dist/client/components/redirect-error';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
 const clinicFormSchema = z.object({
-  name: z.string().trim().min(1, { message: "Nome é obrigatório" }),
+  name: z.string().trim().min(1, { message: 'Nome é obrigatório' }),
 });
 
 export default function ClinicForm() {
   const form = useForm<z.infer<typeof clinicFormSchema>>({
     resolver: zodResolver(clinicFormSchema),
     defaultValues: {
-      name: "",
+      name: '',
     },
   });
 
@@ -39,7 +39,7 @@ export default function ClinicForm() {
         return;
       }
       console.error(error);
-      toast.error("Erro ao criar clínica");
+      toast.error('Erro ao criar clínica');
     }
   };
 
