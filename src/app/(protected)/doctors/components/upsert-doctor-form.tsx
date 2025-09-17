@@ -33,6 +33,18 @@ import { upsertDoctor } from '@/actions/upsert-doctor';
 import { useAction } from 'next-safe-action/hooks';
 import { toast } from 'sonner';
 import { doctorsTable } from '@/db/schema';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { deleteDoctor } from '@/actions/delete-doctor';
 
 const formSchema = z
   .object({
@@ -97,6 +109,20 @@ export default function UpsertDoctorForm({
       toast.error('Erro ao adicionar médico.');
     },
   });
+
+  const deleteDoctorAction = useAction(deleteDoctor, {
+    onSuccess: () => {
+      toast.success('Médico deletado com sucesso!');
+      onSuccess?.();
+    },
+    onError: () => {
+      toast.error('Erro ao deletar médico.');
+    },
+  });
+  const handDeleteDoctorClick = () => {
+    if (!doctor) return;
+    deleteDoctorAction.execute({ id: doctor.id });
+  };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     upsertDoctorAction.execute({
@@ -384,6 +410,31 @@ export default function UpsertDoctorForm({
           />
 
           <DialogFooter>
+            {doctor && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive">Deletar médico</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Tem certeza que deseja excluir este médico?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Essa ação não pode ser desfeita. Isso excluirá
+                      permanentemente o médico e todas as consultas agendadas no
+                      sistema.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                    <AlertDialogAction onClick={handDeleteDoctorClick}>
+                      Deletar
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
             <Button type="submit" disabled={upsertDoctorAction.isPending}>
               {upsertDoctorAction.isPending
                 ? 'Salvando...'
