@@ -101,13 +101,13 @@ export const usersToClinicsTableRelations = relations(
 );
 
 export const clinicTableRelations = relations(clinicTable, ({ many }) => ({
-  doctors: many(doctorTable),
+  doctors: many(doctorsTable),
   patients: many(patientsTable),
   appointments: many(appointmentsTable),
   usersToClinics: many(usersToClinicsTable),
 }));
 
-export const doctorTable = pgTable('doctors', {
+export const doctorsTable = pgTable('doctors', {
   id: uuid().defaultRandom().primaryKey(),
   clinicId: uuid('clinic_id')
     .notNull()
@@ -126,13 +126,16 @@ export const doctorTable = pgTable('doctors', {
     .$onUpdate(() => new Date()),
 });
 
-export const doctorTableRelations = relations(doctorTable, ({ many, one }) => ({
-  clinic: one(clinicTable, {
-    fields: [doctorTable.clinicId],
-    references: [clinicTable.id],
+export const doctorTableRelations = relations(
+  doctorsTable,
+  ({ many, one }) => ({
+    clinic: one(clinicTable, {
+      fields: [doctorsTable.clinicId],
+      references: [clinicTable.id],
+    }),
+    appointments: many(appointmentsTable),
   }),
-  appointments: many(appointmentsTable),
-}));
+);
 
 export const patientSexEnum = pgEnum('patient_sex', [
   'male',
@@ -178,7 +181,7 @@ export const appointmentsTable = pgTable('appointments', {
     .references(() => patientsTable.id, { onDelete: 'cascade' }),
   doctorId: uuid('doctor_id')
     .notNull()
-    .references(() => doctorTable.id, { onDelete: 'cascade' }),
+    .references(() => doctorsTable.id, { onDelete: 'cascade' }),
   specialty: text('specialty').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at')
@@ -197,9 +200,9 @@ export const appointmentsTableRelations = relations(
       fields: [appointmentsTable.patientId],
       references: [patientsTable.id],
     }),
-    doctor: one(doctorTable, {
+    doctor: one(doctorsTable, {
       fields: [appointmentsTable.doctorId],
-      references: [doctorTable.id],
+      references: [doctorsTable.id],
     }),
   }),
 );

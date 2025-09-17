@@ -12,7 +12,7 @@ export const createClinic = async (name: string) => {
   });
 
   if (!session?.user) {
-    throw new Error('Unauthrized');
+    throw new Error('Unauthorized');
   }
   const [clinics] = await db.insert(clinicTable).values({ name }).returning();
   await db.insert(usersToClinicsTable).values({

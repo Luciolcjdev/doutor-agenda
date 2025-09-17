@@ -13,6 +13,7 @@ import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import AddDoctorsButton from './components/add-doctors-button';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 export default async function DoctorsPage() {
   const session = await auth.api.getSession({
@@ -39,7 +40,20 @@ export default async function DoctorsPage() {
         </PageActions>
       </PageHeader>
       <PageContent>
-        <h1>Médicos</h1>
+        {/* List of doctors will go here in the future */}
+        <div className="flex h-96 flex-col items-center justify-center">
+          <Avatar className="mb-4 h-24 w-24">
+            <AvatarFallback>
+              <Plus className="h-10 w-10" />
+            </AvatarFallback>
+          </Avatar>
+          <p className="text-lg font-medium text-gray-700">
+            Nenhum médico cadastrado ainda.
+          </p>
+          <p className="text-sm text-gray-500">
+            Clique no botão "Adicionar Médico" para começar a cadastrar.
+          </p>
+        </div>
       </PageContent>
     </PageContainer>
   );
