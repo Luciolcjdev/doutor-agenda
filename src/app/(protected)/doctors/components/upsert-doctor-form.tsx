@@ -1,38 +1,12 @@
-import {
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { medicalSpecialties } from '../constants';
-import { upsertDoctor } from '@/actions/upsert-doctor';
-import { useAction } from 'next-safe-action/hooks';
 import { toast } from 'sonner';
-import { doctorsTable } from '@/db/schema';
+import { z } from 'zod';
+
+import { deleteDoctor } from '@/actions/delete-doctor';
+import { upsertDoctor } from '@/actions/upsert-doctor';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -44,7 +18,35 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { deleteDoctor } from '@/actions/delete-doctor';
+import { Button } from '@/components/ui/button';
+import {
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { doctorsTable } from '@/db/schema';
+
+import { medicalSpecialties } from '../constants';
 
 const formSchema = z
   .object({
@@ -137,7 +139,7 @@ export default function UpsertDoctorForm({
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>{doctor ? doctor.name : 'Adicionar médico.'}</DialogTitle>
+        <DialogTitle>{doctor ? doctor.name : 'Adicionar médico'}</DialogTitle>
         <DialogDescription>
           {doctor
             ? 'Editar as informações desse médico'

@@ -1,3 +1,8 @@
+import { eq } from 'drizzle-orm';
+import { Plus } from 'lucide-react';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+
 import {
   PageActions,
   PageContainer,
@@ -7,14 +12,11 @@ import {
   PageHeaderContent,
   PageTitle,
 } from '@/components/ui/page-container';
-import { Plus } from 'lucide-react';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
-import AddDoctorsButton from './components/add-doctors-button';
 import { db } from '@/db';
 import { doctorsTable } from '@/db/schema';
-import { eq } from 'drizzle-orm';
+import { auth } from '@/lib/auth';
+
+import AddDoctorsButton from './components/add-doctors-button';
 import DoctorCard from './components/doctor-card';
 
 export default async function DoctorsPage() {

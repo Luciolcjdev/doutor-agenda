@@ -4,11 +4,11 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
-import UpsertDoctorForm from './upsert-doctor-form';
+import UpsertPatientForm from './upsert-patient-form';
 
-export default function AddDoctorsButton() {
+export default function AddPatientsButton() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -16,10 +16,12 @@ export default function AddDoctorsButton() {
       <DialogTrigger asChild>
         <Button>
           <Plus />
-          Adicionar Médico
+          Adicionar paciente
         </Button>
       </DialogTrigger>
-      <UpsertDoctorForm onSuccess={() => setIsOpen(false)} />
+      <DialogContent>
+        <UpsertPatientForm onSuccess={() => setIsOpen(false)} />
+      </DialogContent>
     </Dialog>
   );
 }

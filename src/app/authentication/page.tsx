@@ -1,10 +1,11 @@
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { auth } from '@/lib/auth';
 
 import LoginForm from './components/login-form';
 import SiginUpForm from './components/sigin-up-form';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 export default async function AuthenticationPage() {
   const session = await auth.api.getSession({
