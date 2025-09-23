@@ -1,16 +1,16 @@
-import { betterAuth } from 'better-auth';
-import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { customSession } from 'better-auth/plugins';
-import { eq } from 'drizzle-orm';
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { customSession } from "better-auth/plugins";
+import { eq } from "drizzle-orm";
 
-import { db } from '@/db';
-import * as schema from '@/db/schema';
-import { usersToClinicsTable } from '@/db/schema';
+import { db } from "@/db";
+import * as schema from "@/db/schema";
+import { usersToClinicsTable } from "@/db/schema";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
-    provider: 'pg', // or "pg" or "mysql"
-    usePlural: true, // if your table names are plural (e.g. users, accounts)
+    provider: "pg", // or "pg" or "mysql"
+    usePlural: false, // if your table names are plural (e.g. users, accounts)
     schema,
   }),
   socialProviders: {
@@ -44,16 +44,16 @@ export const auth = betterAuth({
   ],
 
   user: {
-    modelName: 'usersTable', // your users table name
+    modelName: "usersTable", // your users table name
   },
   session: {
-    modelName: 'sessionsTable', // your sessions table name
+    modelName: "sessionsTable", // your sessions table name
   },
   account: {
-    modelName: 'accountsTable', // your accounts table name
+    modelName: "accountsTable", // your accounts table name
   },
   verification: {
-    modelName: 'verificationsTable', // your verification table name
+    modelName: "verificationsTable", // your verification table name
   },
   emailAndPassword: {
     enabled: true,
