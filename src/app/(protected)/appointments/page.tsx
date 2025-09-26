@@ -24,10 +24,10 @@ const AppointmentsPage = async () => {
     headers: await headers(),
   });
   if (!session?.user) {
-    redirect("/authentication");
+    return redirect("/authentication");
   }
   if (!session.user.clinic) {
-    redirect("/clinic-form");
+    return redirect("/clinic-form");
   }
 
   const [patients, doctors, appointments] = await Promise.all([

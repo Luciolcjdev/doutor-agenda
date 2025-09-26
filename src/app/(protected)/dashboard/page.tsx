@@ -1,29 +1,46 @@
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-import { auth } from '@/lib/auth';
+import {
+  PageActions,
+  PageContainer,
+  PageContent,
+  PageDescription,
+  PageHeader,
+  PageHeaderContent,
+  PageTitle,
+} from "@/components/ui/page-container";
+import { auth } from "@/lib/auth";
 
-import SignOutButton from './components/sign-out-button';
+import DatePicker from "./components/date-picker";
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
   if (!session?.user) {
-    return redirect('/authentication');
+    return redirect("/authentication");
   }
   if (!session.user.clinic) {
-    return redirect('/clinic-form');
+    return redirect("/clinic-form");
   }
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <h2>Welcome {session?.user.name}</h2>
-      <p>Cadastrado com o e-mail: {session?.user.email}</p>
-      <div>
-        <SignOutButton />
-      </div>
-    </div>
+    <PageContainer>
+      <PageHeader>
+        <PageHeaderContent>
+          <PageTitle>Dashboard</PageTitle>
+          <PageDescription>
+            Gerencie os pacientes da sua clínica
+          </PageDescription>
+        </PageHeaderContent>
+        <PageActions>
+          <DatePicker />
+        </PageActions>
+      </PageHeader>
+      <PageContent>
+        <></>
+      </PageContent>
+    </PageContainer>
   );
 }

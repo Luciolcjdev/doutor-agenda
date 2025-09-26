@@ -1,11 +1,11 @@
-'use server';
+"use server";
 
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-import { db } from '@/db';
-import { clinicTable, usersToClinicsTable } from '@/db/schema';
-import { auth } from '@/lib/auth';
+import { db } from "@/db";
+import { clinicsTable, usersToClinicsTable } from "@/db/schema";
+import { auth } from "@/lib/auth";
 
 export const createClinic = async (name: string) => {
   const session = await auth.api.getSession({
@@ -13,12 +13,13 @@ export const createClinic = async (name: string) => {
   });
 
   if (!session?.user) {
-    throw new Error('Unauthorized');
+    throw new Error("Unauthorized");
   }
-  const [clinics] = await db.insert(clinicTable).values({ name }).returning();
+  const [clinics] = await db.insert(clinicsTable).values({ name }).returning();
   await db.insert(usersToClinicsTable).values({
     userId: session.user.id,
     clinicId: clinics.id,
   });
-  redirect('/dashboard');
+
+  redirect("/dashboard");
 };
