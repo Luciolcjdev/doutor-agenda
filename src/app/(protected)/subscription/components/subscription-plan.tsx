@@ -1,5 +1,10 @@
-import { CircleCheck } from "lucide-react";
+"use client";
 
+import { loadStripe } from "@stripe/stripe-js";
+import { CircleCheck, Loader2 } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
+
+import { createStripeCheckout } from "@/actions/create-stripe-checkout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +19,26 @@ interface SubscriptionPlanProps {
 }
 
 export function SubscriptionPlan({ active = false }: SubscriptionPlanProps) {
+  const createStripeCheckoutAction = useAction(createStripeCheckout, {
+    onSuccess: async ({ data }) => {
+      if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+        throw new Error("Stripe publishable key not found");
+      }
+      const stripe = await loadStripe(
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+      );
+      if (!stripe) {
+        throw new Error("Stripe not found");
+      }
+      if (!data?.sessionId) {
+        throw new Error("Session ID not found");
+      }
+      await stripe.redirectToCheckout({
+        sessionId: data?.sessionId,
+      });
+    },
+  });
+
   const features = [
     "Cadastro de até 3 médicos",
     "Agendamentos ilimitados",
@@ -22,6 +47,10 @@ export function SubscriptionPlan({ active = false }: SubscriptionPlanProps) {
     "Confirmação manual",
     "Suporte via e-mail",
   ];
+
+  const handleSubscriptionClick = () => {
+    createStripeCheckoutAction.execute();
+  };
 
   return (
     <Card className="w-full max-w-sm border border-gray-200 bg-white">
@@ -61,10 +90,19 @@ export function SubscriptionPlan({ active = false }: SubscriptionPlanProps) {
 
       <CardFooter>
         <Button
-          className="bg-primary w-full text-white hover:bg-gray-800"
+          className="bg-primary w-full text-white"
           size="lg"
+          variant="outline"
+          onClick={active ? () => {} : handleSubscriptionClick}
+          disabled={createStripeCheckoutAction.isExecuting}
         >
-          {active ? "Gerenciar assinatura" : "Fazer assinatura"}
+          {createStripeCheckoutAction.isExecuting ? (
+            <Loader2 className="mr-1 h-4 w-4 animate-spin" />
+          ) : active ? (
+            "Gerenciar assinatura"
+          ) : (
+            "Fazer assinatura"
+          )}
         </Button>
       </CardFooter>
     </Card>
