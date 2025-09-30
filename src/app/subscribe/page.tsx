@@ -35,7 +35,7 @@ export default async function Home() {
               Transforme a gestão da sua clínica
             </h1>
             <p className="text-lg leading-relaxed text-pretty text-teal-100 lg:text-xl">
-              Simplifique agendamentos, organize prontuários e ofereça uma
+              Simplifique agendamentos, organize médicos e ofereça uma
               experiência excepcional aos seus pacientes. Tudo em uma plataforma
               intuitiva e segura.
             </p>
@@ -91,12 +91,6 @@ export default async function Home() {
                 <span>Conformidade total com LGPD e segurança de dados</span>
               </li>
             </ul>
-            <div className="pt-4">
-              <p className="text-sm text-teal-200">
-                Junte-se a mais de 500 profissionais que já confiam em nossa
-                plataforma
-              </p>
-            </div>
           </div>
 
           {/* Plan card section */}
