@@ -17,6 +17,7 @@ import {
 
 interface SubscriptionPlanProps {
   active?: boolean;
+  className?: string;
   userEmail: string;
 }
 

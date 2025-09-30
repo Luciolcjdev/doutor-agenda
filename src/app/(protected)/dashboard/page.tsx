@@ -43,6 +43,9 @@ export default async function DashboardPage({
   if (!session.user.clinic) {
     return redirect("/clinic-form");
   }
+  if (!session.user.plan) {
+    return redirect("/subscribe");
+  }
 
   const { from, to } = await searchParams;
   if (!from || !to) {

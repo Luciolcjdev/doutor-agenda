@@ -5,12 +5,12 @@ import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
 import * as schema from "@/db/schema";
-import { usersToClinicsTable } from "@/db/schema";
+import { usersTable, usersToClinicsTable } from "@/db/schema";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
-    provider: "pg", // or "pg" or "mysql"
-    usePlural: false, // if your table names are plural (e.g. users, accounts)
+    provider: "pg",
+    usePlural: true,
     schema,
   }),
   socialProviders: {
@@ -21,21 +21,28 @@ export const auth = betterAuth({
   },
   plugins: [
     customSession(async ({ user, session }) => {
-      const clinics = await db.query.usersToClinicsTable.findMany({
-        where: eq(usersToClinicsTable.userId, user.id),
-        with: {
-          clinic: true,
-          user: true,
-        },
-      });
+      // TODO: colocar cache
+      const [userData, clinics] = await Promise.all([
+        db.query.usersTable.findFirst({
+          where: eq(usersTable.id, user.id),
+        }),
+        db.query.usersToClinicsTable.findMany({
+          where: eq(usersToClinicsTable.userId, user.id),
+          with: {
+            clinic: true,
+            user: true,
+          },
+        }),
+      ]);
+      // TODO: Ao adaptar para o usuário ter múltiplas clínicas, deve-se mudar esse código
       const clinic = clinics?.[0];
       return {
         user: {
           ...user,
-          plan: clinic.user.plan,
+          plan: userData?.plan,
           clinic: clinic?.clinicId
             ? {
-                id: clinic.clinicId,
+                id: clinic?.clinicId,
                 name: clinic?.clinic?.name,
               }
             : undefined,
@@ -44,13 +51,13 @@ export const auth = betterAuth({
       };
     }),
   ],
-
   user: {
-    modelName: "usersTable", // your users table name
+    modelName: "usersTable",
     additionalFields: {
       stripeCustomerId: {
         type: "string",
         fieldName: "stripeCustomerId",
+        required: false,
       },
       stripeSubscriptionId: {
         type: "string",
@@ -65,13 +72,13 @@ export const auth = betterAuth({
     },
   },
   session: {
-    modelName: "sessionsTable", // your sessions table name
+    modelName: "sessionsTable",
   },
   account: {
-    modelName: "accountsTable", // your accounts table name
+    modelName: "accountsTable",
   },
   verification: {
-    modelName: "verificationsTable", // your verification table name
+    modelName: "verificationsTable",
   },
   emailAndPassword: {
     enabled: true,

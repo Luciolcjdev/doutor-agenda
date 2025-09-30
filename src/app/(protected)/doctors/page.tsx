@@ -28,6 +28,9 @@ export default async function DoctorsPage() {
   if (!session.user.clinic) {
     redirect("/clinic-form");
   }
+  if (!session.user.plan) {
+    return redirect("/subscribe");
+  }
 
   const doctors = await db.query.doctorsTable.findMany({
     where: eq(doctorsTable.clinicId, session.user?.clinic.id),
@@ -52,7 +55,6 @@ export default async function DoctorsPage() {
             <DoctorCard key={doctor.id} doctor={doctor} />
           ))}
         </div>
-        .
       </PageContent>
     </PageContainer>
   );
