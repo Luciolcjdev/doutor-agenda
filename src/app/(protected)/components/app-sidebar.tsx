@@ -79,6 +79,11 @@ export function AppSidebar() {
     });
   };
 
+  const avatarInitials = session.data?.user.name
+    .split(" ")
+    .map((name) => name[0])
+    .join("");
+
   return (
     <Sidebar>
       <SidebarHeader className="border-b p-4">
@@ -127,12 +132,7 @@ export function AppSidebar() {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton size="lg">
                   <Avatar className="h-10 w-10">
-                    <AvatarFallback>
-                      {session.data?.user.clinic?.name
-                        .split(" ")
-                        .map((name) => name[0])
-                        .join("")}
-                    </AvatarFallback>
+                    <AvatarFallback>{avatarInitials}</AvatarFallback>
                   </Avatar>
                   <div>
                     <p className="text-sm">{session.data?.user.clinic?.name}</p>
