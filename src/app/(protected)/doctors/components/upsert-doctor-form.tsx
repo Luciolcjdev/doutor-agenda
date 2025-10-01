@@ -1,12 +1,12 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useAction } from 'next-safe-action/hooks';
-import { useForm } from 'react-hook-form';
-import { NumericFormat } from 'react-number-format';
-import { toast } from 'sonner';
-import { z } from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "next-safe-action/hooks";
+import { useForm } from "react-hook-form";
+import { NumericFormat } from "react-number-format";
+import { toast } from "sonner";
+import { z } from "zod";
 
-import { deleteDoctor } from '@/actions/delete-doctor';
-import { upsertDoctor } from '@/actions/upsert-doctor';
+import { deleteDoctor } from "@/actions/delete-doctor";
+import { upsertDoctor } from "@/actions/upsert-doctor";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,15 +17,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import {
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -33,8 +33,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -43,37 +43,37 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { doctorsTable } from '@/db/schema';
+} from "@/components/ui/select";
+import { doctorsTable } from "@/db/schema";
 
-import { medicalSpecialties } from '../constants';
+import { medicalSpecialties } from "../constants";
 
 const formSchema = z
   .object({
-    name: z.string().trim().min(1, { message: 'Nome é obrigatório.' }),
+    name: z.string().trim().min(1, { message: "Nome é obrigatório." }),
     specialty: z
       .string()
       .trim()
-      .min(1, { message: 'Especialidade é obrigatória.' }),
+      .min(1, { message: "Especialidade é obrigatória." }),
     appointmentPrice: z
       .number()
-      .min(1, { message: 'Preço da consulta é obrigatório.' }),
+      .min(1, { message: "Preço da consulta é obrigatório." }),
     availableFromWeekDay: z.string(),
     availableToWeekDay: z.string(),
     availableFromTime: z
       .string()
-      .min(1, { message: 'Hora do início é obrigatória.' }),
+      .min(1, { message: "Hora do início é obrigatória." }),
     availableToTime: z
       .string()
-      .min(1, { message: 'Hora do término é obrigatória.' }),
+      .min(1, { message: "Hora do término é obrigatória." }),
   })
   .refine(
     (data) => {
       return data.availableFromTime < data.availableToTime;
     },
     {
-      message: 'O horário inicial deve ser anterior a hora de término.',
-      path: ['availableToTime'],
+      message: "O horário inicial deve ser anterior a hora de término.",
+      path: ["availableToTime"],
     },
   );
 
@@ -90,35 +90,35 @@ export default function UpsertDoctorForm({
     shouldUnregister: true,
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: doctor?.name ?? '',
-      specialty: doctor?.specialty ?? '',
+      name: doctor?.name ?? "",
+      specialty: doctor?.specialty ?? "",
       appointmentPrice: doctor?.appointmentPriceInCents
         ? doctor.appointmentPriceInCents / 100
         : 0,
-      availableFromWeekDay: doctor?.availableFromWeekDay.toString() ?? '1',
-      availableToWeekDay: doctor?.availableToWeekDay.toString() ?? '5',
-      availableFromTime: doctor?.availableFromTime ?? '',
-      availableToTime: doctor?.availableToTime ?? '',
+      availableFromWeekDay: doctor?.availableFromWeekDay.toString() ?? "1",
+      availableToWeekDay: doctor?.availableToWeekDay.toString() ?? "5",
+      availableFromTime: doctor?.availableFromTime ?? "",
+      availableToTime: doctor?.availableToTime ?? "",
     },
   });
 
   const upsertDoctorAction = useAction(upsertDoctor, {
     onSuccess: () => {
-      toast.success('Médico adicionado com sucesso!');
+      toast.success("Médico adicionado com sucesso!");
       onSuccess?.();
     },
     onError: () => {
-      toast.error('Erro ao adicionar médico.');
+      toast.error("Erro ao adicionar médico.");
     },
   });
 
   const deleteDoctorAction = useAction(deleteDoctor, {
     onSuccess: () => {
-      toast.success('Médico deletado com sucesso!');
+      toast.success("Médico deletado com sucesso!");
       onSuccess?.();
     },
     onError: () => {
-      toast.error('Erro ao deletar médico.');
+      toast.error("Erro ao deletar médico.");
     },
   });
   const handDeleteDoctorClick = () => {
@@ -139,11 +139,11 @@ export default function UpsertDoctorForm({
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>{doctor ? doctor.name : 'Adicionar médico'}</DialogTitle>
+        <DialogTitle>{doctor ? doctor.name : "Adicionar médico"}</DialogTitle>
         <DialogDescription>
           {doctor
-            ? 'Editar as informações desse médico'
-            : 'Adicione um novo médico.'}
+            ? "Editar as informações desse médico"
+            : "Adicione um novo médico."}
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
@@ -197,7 +197,6 @@ export default function UpsertDoctorForm({
                 <NumericFormat
                   value={field.value}
                   onValueChange={(value) => {
-                    const { floatValue } = value;
                     field.onChange(value.floatValue);
                   }}
                   decimalScale={2}
@@ -439,10 +438,10 @@ export default function UpsertDoctorForm({
             )}
             <Button type="submit" disabled={upsertDoctorAction.isPending}>
               {upsertDoctorAction.isPending
-                ? 'Salvando...'
+                ? "Salvando..."
                 : doctor
-                  ? 'Salvar'
-                  : 'Adicionar'}
+                  ? "Salvar"
+                  : "Adicionar"}
             </Button>
           </DialogFooter>
         </form>
