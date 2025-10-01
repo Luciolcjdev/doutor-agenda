@@ -69,15 +69,12 @@ export function AppSidebar() {
   const session = authClient.useSession();
   const pathname = usePathname();
 
-  const handleSignOut = async () => {
-    await authClient.signOut({
+  const handleSignOut = () =>
+    authClient.signOut({
       fetchOptions: {
-        onSuccess: () => {
-          router.push("/authentication");
-        },
+        onSuccess: () => router.push("/authentication"),
       },
     });
-  };
 
   const avatarInitials = session.data?.user.name
     .split(" ")
