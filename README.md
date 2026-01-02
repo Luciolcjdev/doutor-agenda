@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Doutor Agenda
 
-## Getting Started
+![Status](https://img.shields.io/badge/status-production-green)
+![Tech Stack](https://img.shields.io/badge/stack-Next.js%20|%20TypeScript%20|%20Drizzle%20ORM%20|%20Stripe-blue)
 
-First, run the development server:
+## 🚀 Descrição
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Doutor Agenda é uma aplicação **full-stack** para gerenciamento de agendamentos de consultas médicas com pagamento integrado.  
+O sistema faz uso de tecnologias modernas como **Next.js**, **TypeScript**, **Drizzle ORM** com banco **PostgreSQL (NeonDB)**, **Stripe para pagamentos**, **Zod para validação de dados** e **better-auth para autenticação de usuários**.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Este projeto foi desenvolvido com foco em **produção real**, arquitetura escalável e preparado para uso profissional — ideal para startups ou equipes modernas de desenvolvimento.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧠 Tecnologias
 
-## Learn More
+- **Front-end:** Next.js (App Router) + TypeScript
+- **Back-end:** API Server Actions + Next.js
+- **Banco de Dados:** PostgreSQL (NeonDB) com **Drizzle ORM**
+- **Validação de dados:** Zod
+- **Autenticação:** better-auth (com roles/autorizações)
+- **Pagamentos:** Stripe (checkout + webhooks)
+- **Estilo:** Tailwind CSS
+- **Deploy:** Vercel
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📌 Funcionalidades Principais
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+✔ Cadastro e login de usuários  
+✔ Autenticação segura com roles (ex.: paciente / médico / admin)  
+✔ Agendamento de consultas  
+✔ Pagamento de consultas via **Stripe**  
+✔ Integração de **webhooks** do Stripe para atualização automática do status  
+✔ Validação de dados com **Zod**  
+✔ Banco de dados relacional com Drizzle ORM
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+🌐 Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Site em produção:
+🔗 https://doutor-agenda-liard.vercel.app/
+
+---
+
+🗂️ Estrutura de Banco de Dados
+
+Principais entidades (relacionadas ao contexto):
+
+users – Usuários com roles e permissões
+
+appointments – Agendamentos de consultas
+
+payments – Informações de pagamento recebidas do Stripe
+
+doctors / patients – Perfis de usuários com papéis específicos
+
+📌 Todas as migrations estão organizadas via Drizzle ORM.
+
+---
+
+📈 Melhorias Futuras
+
+✔ Painel administrativo avançado
+✔ Notificações por e-mail após pagamento
+✔ Testes automatizados (Vitest / Cypress)
+✔ Integração com IA para recomendação de horários
+✔ Suporte a múltiplos idiomas (i18n)
+
+---
+
+💡 Por que este projeto é relevante
+
+Este projeto demonstra:
+
+Aplicação real com backend e frontend integrados
+
+Pagamentos online com Stripe
+
+Autenticação e validações robustas
+
+Arquitetura profissional com tecnologias modernas
+
+Perfeito para apresentação em portfólio profissional e entrevistas técnicas.
+
+---
+
+📞 Contato
+
+GitHub: https://github.com/Luciolcjdev
+
+Deploy: https://doutor-agenda-liard.vercel.app/
